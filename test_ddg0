@@ -1,0 +1,19 @@
+import json
+import requests
+
+url_ddg = "https://api.duckduckgo.com"
+
+def test_ddg0():
+    # resp = requests.get(url_ddg + "/?q=DuckDuckGo&format=json")
+    resp = requests.get(url_ddg + "/?q=presidents%20of%20the%20united%20states&format=json")
+    rsp_data = resp.json()
+    assert "Presidents of the United States" in rsp_data["Heading"]
+
+    keywords = ['Washington', 'Adams', 'Jefferson', 'Madison', 'Monroe', 'Jackson', 'Van Buren', 'Harrison', 'Tyler', 'Polk',
+                'Taylor', 'Fillmore', 'Pierce', 'Buchanan', 'Lincoln', 'Johnson', 'Grant', 'Hayes', 'Garfield', 'Arthur',
+                'Cleveland', 'Harrison', 'McKinley', 'Roosevelt', 'Taft', 'Wilson', 'Harding', 'Coolidge', 'Hoover', 'Truman',
+                'Eisenhower', 'Kennedy', 'Nixon', 'Ford', 'Carter', 'Reagan', 'Bush', 'Clinton', 'Bush', 'Obama', 'Trump', 'Biden']
+
+    for item in rsp_data:
+        if any(word in item.get('RelatedTopics', []) for word in keywords):
+            print(item)
